@@ -37,9 +37,58 @@ the specified distance, the gate remains closed.
 
 ## 💻 Code
 
-The Arduino code is available in:
+The Arduino code are:
 
-`code/automatic_gate.ino`
+// C++ code
+//
+
+
+int sensorPin=7;
+float distance;
+long duration;
+#include <Servo.h>
+
+Servo gateServo;
+
+
+
+void setup(){
+  Serial.begin(9600);
+  
+  gateServo.attach(9);
+  
+}
+
+void loop(){
+  pinMode(sensorPin ,OUTPUT);
+  digitalWrite(sensorPin ,LOW);
+delayMicroseconds(2);
+  
+ digitalWrite(sensorPin ,HIGH);
+ delayMicroseconds(5);
+  digitalWrite(sensorPin ,LOW);
+  
+  pinMode(sensorPin, INPUT);
+  
+  duration = pulseIn(sensorPin , HIGH);
+  distance =(duration*0.0343)/2;
+  
+  Serial.print("Distance: ");
+Serial.print(distance);
+Serial.println(" cm");
+  
+  delay(200);
+
+
+  if (distance < 20) {
+  gateServo.write(90);  
+}
+else {
+  gateServo.write(0);  
+}
+
+
+}
 
 ## 🎥 Project Demonstration
 
